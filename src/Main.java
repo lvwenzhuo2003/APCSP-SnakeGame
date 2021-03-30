@@ -9,6 +9,8 @@ import java.awt.event.WindowEvent;
 import java.util.Random;
 
 public class Main extends Frame {
+    public static boolean canContinue = false;
+    public static int refreshRate;
     public static int gameScore = 0;
     public static boolean gameState = true;
     private Panel rule;
@@ -21,7 +23,7 @@ public class Main extends Frame {
     private final JLabel scoreTitle = new JLabel("Score", JLabel.CENTER);
     private JLabel scoreBulletinBoard;
     private Panel panel;
-    private static Thread thread;
+    public static Thread thread;
     private final JTextArea hint = new JTextArea("Use following key to control:\n      ↑\n  ←      →\n      ↓\n\n[Esc] to exit");
     public Main(){
         random = new Random();
@@ -43,7 +45,17 @@ public class Main extends Frame {
     public JLabel getCurrentScore(){
         return scoreBulletinBoard;
     }
-    public void showView() {
+    public void showView() throws InterruptedException {
+        boolean once = true;
+        do {
+            if (once) {
+                new showDifficultyDialog();
+                once = false;
+            }
+            Thread.sleep(10);//F**king Java
+            //Dont ask me why to sleep 0.01 second can run the program. I dont know why.
+            //Dont try to delete this. I spend a whole night to find this solution.
+        } while (!canContinue);
 
         title.setFont(new Font("Microsoft YaHei UI", Font.BOLD, 18));
         title.setForeground(Color.white);
@@ -86,8 +98,15 @@ public class Main extends Frame {
         this.setVisible(true);
 
     }
-    public static void main(String[] args){
+
+
+    public static void main(String[] args) throws InterruptedException{
         new Main().showView();
-        thread.start();
+        while (true) {
+            if (canContinue) {
+                thread.start();
+                break;
+            }
+        }
     }
 }

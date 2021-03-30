@@ -15,18 +15,13 @@ public class Snake {
         this.main = main;
     }
 
-    public int getCurrentDirection(){
-        return direction;
-    }
     public void setDirection(int direction){
         this.direction = direction;
     }
     public Node getSnakeHead(){
         return snake.get(0);
     }
-    public Node getSnakeTail(){
-        return snake.get(snake.size() - 1);
-    }
+
     public ArrayList<Node> getSnake(){
         return snake;
     }
@@ -42,12 +37,11 @@ public class Snake {
     public void eatEgg(Node egg){
         if(snake.get(0).getNodeX() == egg.getNodeX() && snake.get(0).getNodeY() == egg.getNodeY()) {
             snake.add(egg);
-            //产蛋
+            //Generate egg
             main.setEgg(random.nextInt(DrawMainComponent.VIEW_WIDTH - 1) * DrawMainComponent.VIEW_NUMBER,
                     random.nextInt(DrawMainComponent.VIEW_WIDTH - 1) * DrawMainComponent.VIEW_NUMBER);
             main.gameScore = main.gameScore + 5;
             main.getCurrentScore().setText(main.gameScore + "");
-            //System.out.println("吃到蛋了");
             System.out.print("\07");
         }
     }

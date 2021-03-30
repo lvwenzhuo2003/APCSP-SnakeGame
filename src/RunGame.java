@@ -1,6 +1,6 @@
+@SuppressWarnings("InfiniteLoopStatement")
 public class RunGame implements Runnable{
 
-    private int refreshRate = 100;
     private DrawMainComponent drawMainComponent;
     private Snake snake;
 
@@ -16,7 +16,7 @@ public class RunGame implements Runnable{
                 drawMainComponent.repaint();
             }
             try {
-                Thread.sleep(refreshRate);
+                Thread.sleep(Main.refreshRate);
             } catch (InterruptedException exp){
                 exp.printStackTrace();
             }
