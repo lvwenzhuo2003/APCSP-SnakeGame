@@ -7,4 +7,4 @@ Please notice that although this program (and this project) was open-sourced and
 ## Contribution
 We do not support contributions now. Any pull request will be ignored currently. 
 
-For more information, please go to [Project Self-introduction file] (Project_Infrastructure.md). 
+For more information, please go to [Project Self-introduction file](Project_Infrastructure.md). 
