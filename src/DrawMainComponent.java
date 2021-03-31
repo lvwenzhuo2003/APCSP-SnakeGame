@@ -13,12 +13,21 @@ public class DrawMainComponent extends Panel{
     private Snake snake;
     private Node egg;
 
+    /**
+     * draws main frame
+     * @param snake the active snake
+     * @param egg the active egg
+     */
     public DrawMainComponent(Snake snake, Node egg) {
 
         this.snake = snake;
         this.egg = egg;
     }
 
+    /**
+     * rewrite the paint method, distinguished from the built-in one
+     */
+    @Override
     public void paint(Graphics g) {
 
         snake.snakeMove();
@@ -27,6 +36,11 @@ public class DrawMainComponent extends Panel{
         this.drawEgg(g);
         snake.eatEgg(egg);
     }
+
+    /**
+     * rewrite the update method, distinguished from the built-in one
+     */
+    @Override
     public void update(Graphics g) {
         if(iBuffer==null)
         {
@@ -38,6 +52,10 @@ public class DrawMainComponent extends Panel{
         paint(gBuffer);
         g.drawImage(iBuffer,0,0,this);
     }
+
+    /**
+     * Draw the nodes specified
+     */
     public void drawGridding(Graphics g) {
 
         g.setColor(new Color(128,128,128));
@@ -49,6 +67,11 @@ public class DrawMainComponent extends Panel{
         }
 
     }
+
+    /**
+     * draw the snake
+     * The snake is separated to two parts. The head is marked deep-grey, while other body parts are light-grey
+     */
     public void drawSnake(Graphics g) {
 
         for(int i = 0; i < snake.getSnake().size(); i ++) {
@@ -58,6 +81,10 @@ public class DrawMainComponent extends Panel{
             g.fillRect(snake.getSnake().get(i).getNodeX(), snake.getSnake().get(i).getNodeY(), VIEW_NUMBER, VIEW_NUMBER);
         }
     }
+
+    /**
+     * Draw the egg on the grid
+     */
     public void drawEgg(Graphics g) {
 
         g.setColor(Color.yellow);

@@ -3,10 +3,19 @@ import java.awt.event.KeyListener;
 
 public class KeyboardControl implements KeyListener {
     private Snake snake;
+
+    /**
+     * Keyboard controller detects keyboard input
+     * @param snake find the snake and change the direction of it
+     */
     public KeyboardControl(Snake snake){
         this.snake = snake;
     }
 
+    /**
+     * Keyboard controller only acts when the key is released
+     * @param keyEvent triggers when the key is pressed
+     */
     public void keyReleased(KeyEvent keyEvent){
         switch (keyEvent.getKeyCode()) {
             case KeyEvent.VK_UP -> snake.setDirection(0);

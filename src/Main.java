@@ -13,8 +13,8 @@ public class Main extends Frame {
     public static int refreshRate;
     public static int gameScore = 0;
     public static boolean gameState = true;
-    private Panel rule;
-    private Random random;
+    private final Panel rule;
+    private final Random random;
     private Snake snake;
     private Node egg;
     private DrawMainComponent drawMainComponent;
@@ -24,7 +24,11 @@ public class Main extends Frame {
     private JLabel scoreBulletinBoard;
     private Panel panel;
     public static Thread thread;
-    private final JTextArea hint = new JTextArea("Use following key to control:\n      ↑\n  ←      →\n      ↓\n\n[Esc] to exit");
+    private final JTextArea hint = new JTextArea("Use following\nkey to control:\n      ↑\n  ←      →\n      ↓\n\n[Esc] to exit\n[Enter] to pause");
+
+    /**
+     * This is the main frame of the game
+     */
     public Main(){
         random = new Random();
         snake = new Snake(10 * DrawMainComponent.VIEW_NUMBER + random.nextInt(19) * DrawMainComponent.VIEW_NUMBER,
@@ -38,13 +42,29 @@ public class Main extends Frame {
         scoreBulletinBoard = new JLabel(gameScore + "", JLabel.CENTER);
         rule = new Panel();
     }
+
+    /**
+     * This is the function will be called when the snake meets the egg
+     * @param eggNodeX egg coordination
+     * @param eggNodeY egg coordination
+     */
     public void setEgg(int eggNodeX, int eggNodeY){
         this.egg.setNodeX(eggNodeX);
         this.egg.setNodeY(eggNodeY);
     }
+
+    /**
+     * This is the bulletin board of the score
+     * @return the bulletin board
+     */
     public JLabel getCurrentScore(){
         return scoreBulletinBoard;
     }
+
+    /**
+     * main frame
+     * @throws InterruptedException see below
+     */
     public void showView() throws InterruptedException {
         boolean once = true;
         do {
@@ -74,7 +94,7 @@ public class Main extends Frame {
         rule.setBackground(new Color(0,128,128));
         rule.setBounds(0, 90, 150, 1);
         hint.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 16));
-        hint.setBounds(10, 100, 130, 150);
+        hint.setBounds(10, 100, 130, 200);
         hint.setBackground(new Color(0,102,102));
 
         panel.add(scoreTitle);
@@ -100,6 +120,11 @@ public class Main extends Frame {
     }
 
 
+    /**
+     * Main program
+     * @param args
+     * @throws InterruptedException see Main().showView()
+     */
     public static void main(String[] args) throws InterruptedException{
         new Main().showView();
         while (true) {
