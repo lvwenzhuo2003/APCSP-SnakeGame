@@ -2,6 +2,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Panel;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 public class DrawMainComponent extends Panel{
 
@@ -12,6 +14,7 @@ public class DrawMainComponent extends Panel{
     private Graphics gBuffer;
     private Snake snake;
     private Node egg;
+    private static Logger logger = Logger.getLogger("DrawMainComponent");
 
     /**
      * draws main frame
@@ -51,6 +54,7 @@ public class DrawMainComponent extends Panel{
         gBuffer.fillRect(0,0, DrawMainComponent.VIEW_WIDTH * DrawMainComponent.VIEW_NUMBER + 1, DrawMainComponent.VIEW_HEIGHT * DrawMainComponent.VIEW_NUMBER + 1);
         paint(gBuffer);
         g.drawImage(iBuffer,0,0,this);
+        logger.log(Level.INFO, "Updated main frame while snake is moving");
     }
 
     /**
@@ -58,7 +62,7 @@ public class DrawMainComponent extends Panel{
      */
     public void drawGridding(Graphics g) {
 
-        g.setColor(new Color(128,128,128));
+        g.setColor(new Color(127,127,127));
         for(int i = 0; i < VIEW_WIDTH; i++) {
             g.drawLine(0, i * VIEW_NUMBER, VIEW_WIDTH * VIEW_NUMBER, i * VIEW_NUMBER);
         }

@@ -1,8 +1,11 @@
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class KeyboardControl implements KeyListener {
     private Snake snake;
+    private static Logger logger = Logger.getLogger("KeyboardControl");
 
     /**
      * Keyboard controller detects keyboard input
@@ -25,6 +28,7 @@ public class KeyboardControl implements KeyListener {
             case KeyEvent.VK_ESCAPE -> System.exit(0);
             case KeyEvent.VK_ENTER -> Main.gameState = !Main.gameState;
         }
+        logger.log(Level.WARNING, "Key pressed, keycode " + keyEvent.getExtendedKeyCode());
     }
     public void keyPressed(KeyEvent keyEvent){}
     public void keyTyped(KeyEvent keyEvent){}

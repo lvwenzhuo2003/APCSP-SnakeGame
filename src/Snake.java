@@ -1,12 +1,18 @@
+import javax.swing.JOptionPane;
 import java.awt.Toolkit;
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Snake {
     private ArrayList<Node> snake;
     private Random random;
     private int direction = 0;//0=up, 1=right, 2=down, 3=left
-
+    private static Logger logger = Logger.getLogger("Snake");
     private Main main;
 
     /**
@@ -20,6 +26,7 @@ public class Snake {
         snake =new ArrayList<>();
         snake.add(new Node(snakeHeadX,snakeHeadY));
         this.main = main;
+        logger.log(Level.INFO, "Created snake");
     }
 
     /**
@@ -51,12 +58,25 @@ public class Snake {
      */
     public void snakeMove(){
         switch (direction) {
-            case 0 -> snake.add(0,new Node(getSnakeHead().getNodeX(), getSnakeHead().getNodeY() - DrawMainComponent.VIEW_NUMBER));
-            case 1 -> snake.add(0,new Node(getSnakeHead().getNodeX() + DrawMainComponent.VIEW_NUMBER, getSnakeHead().getNodeY()));
-            case 2 -> snake.add(0,new Node(getSnakeHead().getNodeX(), getSnakeHead().getNodeY() + DrawMainComponent.VIEW_NUMBER));
-            case 3 -> snake.add(0,new Node(getSnakeHead().getNodeX() - DrawMainComponent.VIEW_NUMBER, getSnakeHead().getNodeY()));
+            case 0 -> {
+                snake.add(0,new Node(getSnakeHead().getNodeX(), getSnakeHead().getNodeY() - DrawMainComponent.VIEW_NUMBER));
+                logger.log(Level.CONFIG, "Snake changed direction to up");
+            }
+            case 1 -> {
+                snake.add(0,new Node(getSnakeHead().getNodeX() + DrawMainComponent.VIEW_NUMBER, getSnakeHead().getNodeY()));
+                logger.log(Level.CONFIG, "Snake changed direction to right");
+            }
+            case 2 -> {
+                snake.add(0,new Node(getSnakeHead().getNodeX(), getSnakeHead().getNodeY() + DrawMainComponent.VIEW_NUMBER));
+                logger.log(Level.CONFIG, "Snake changed direction to down");
+            }
+            case 3 -> {
+                snake.add(0,new Node(getSnakeHead().getNodeX() - DrawMainComponent.VIEW_NUMBER, getSnakeHead().getNodeY()));
+                logger.log(Level.CONFIG, "Snake changed direction to left");
+            }
         }
         snake.remove(snake.size() - 1);
+        logger.log(Level.CONFIG, "Snake moved");
     }
 
     /**
@@ -73,18 +93,60 @@ public class Snake {
             main.gameScore = main.gameScore + 5;
             main.getCurrentScore().setText(main.gameScore + "");
             Toolkit.getDefaultToolkit().beep();//Let computer signals you have eaten an egg
+            logger.log(Level.WARNING, "Snake eat an egg, position (" + egg.getNodeX() + ", " + egg.getNodeY() + ")");
         }
+
     }
 
     /**
      * When the snake head touches the bound, this function will be triggered.
      * @implNote when it really happens, the game will stop
      */
-    public void snakeRunInterface(){
+    public void snakeRunInterface() throws InterruptedException, URISyntaxException, IOException {
         if(this.getSnakeHead().getNodeX() < 0 || this.getSnakeHead().getNodeY() < 0||
                 this.getSnakeHead().getNodeX() > (DrawMainComponent.VIEW_WIDTH * DrawMainComponent.VIEW_NUMBER)||
                 this.getSnakeHead().getNodeY() > (DrawMainComponent.VIEW_WIDTH * DrawMainComponent.VIEW_NUMBER)) {
-            Main.gameState = false;
+            Toolkit.getDefaultToolkit().beep();
+            boolean dieRestart = JOptionPane.showConfirmDialog(null,"Game Over!\nRestart the game?","Game Over!",JOptionPane.OK_CANCEL_OPTION,JOptionPane.WARNING_MESSAGE) == 0;
+            logger.log(Level.WARNING, "Player failed");
+            if (dieRestart){
+                logger.log(Level.WARNING, "Player restarting the game");
+                final String javaBin = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java";
+                final String javaCompiler = System.getProperty("java.home") + File.separator + "bin" + File.separator + "javac";
+                final File currentJar = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+                Main.getWindows()[0].setVisible(false);
+
+                final ArrayList<String> command = new ArrayList<>();
+                /* is it a jar file? */
+                if(!currentJar.getName().endsWith(".jar")) {
+                    logger.log(Level.WARNING, "The program is running under .class, will try compile a new one and run");
+                    command.add(javaCompiler);
+                    command.add("Main.java");
+                    final ProcessBuilder builder = new ProcessBuilder(command);
+                    //builder.redirectOutput(ProcessBuilder.Redirect.PIPE);
+                    builder.directory(currentJar);
+                    builder.start();
+                    command.clear();
+                    command.add(javaBin);
+                    command.add("Main");
+                    final ProcessBuilder runner = new ProcessBuilder(command);
+                    //runner.redirectOutput(ProcessBuilder.Redirect.PIPE);
+                    runner.directory(currentJar);
+                    runner.start();
+                    System.exit(0);
+                }
+
+                    /* Build command: java -jar application.jar */
+                logger.log(Level.WARNING, "The program is running as a .jar, will start a new instance");
+                command.add(javaBin);
+                command.add("-jar");
+                command.add(currentJar.getPath());
+
+
+                final ProcessBuilder runner = new ProcessBuilder(command);
+                runner.start();
+            }
+            System.exit(0);
         }
     }
 }

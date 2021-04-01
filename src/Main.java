@@ -7,6 +7,8 @@ import java.awt.Panel;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Main extends Frame {
     public static boolean canContinue = false;
@@ -25,17 +27,22 @@ public class Main extends Frame {
     private Panel panel;
     public static Thread thread;
     private final JTextArea hint = new JTextArea("Use following\nkey to control:\n      ↑\n  ←      →\n      ↓\n\n[Esc] to exit\n[Enter] to pause");
+    private static Logger logger = Logger.getLogger("Main");
 
     /**
      * This is the main frame of the game
      */
     public Main(){
         random = new Random();
+        logger.log(Level.INFO, "Random initialized");
         snake = new Snake(10 * DrawMainComponent.VIEW_NUMBER + random.nextInt(19) * DrawMainComponent.VIEW_NUMBER,
                 10 * DrawMainComponent.VIEW_NUMBER + random.nextInt(19) * DrawMainComponent.VIEW_NUMBER,this);
+        logger.log(Level.INFO, "Snake created");
         egg = new Node(random.nextInt(DrawMainComponent.VIEW_WIDTH - 1) * DrawMainComponent.VIEW_NUMBER,
                 random.nextInt(DrawMainComponent.VIEW_WIDTH - 1) * DrawMainComponent.VIEW_NUMBER);
+        logger.log(Level.INFO, "Egg created");
         drawMainComponent = new DrawMainComponent(snake, egg);
+        logger.log(Level.INFO, "Main component initialized");
         runGame = new RunGame(drawMainComponent,snake);
         thread = new Thread(runGame);
         panel = new Panel();
@@ -80,22 +87,25 @@ public class Main extends Frame {
         title.setFont(new Font("Microsoft YaHei UI", Font.BOLD, 18));
         title.setForeground(Color.white);
         title.setBounds(0, 0, DrawMainComponent.VIEW_HEIGHT * DrawMainComponent.VIEW_NUMBER + 70, 40);
-        drawMainComponent.setBackground(new Color(51,51,51));
+        drawMainComponent.setBackground(new Color(0,0,0));
         drawMainComponent.setBounds(20, 50, DrawMainComponent.VIEW_WIDTH * DrawMainComponent.VIEW_NUMBER + 1, DrawMainComponent.VIEW_HEIGHT * DrawMainComponent.VIEW_NUMBER + 1);
         panel.setLayout(null);
-        panel.setBackground(new Color(0,102,102));
+        panel.setBackground(new Color(255,255,255));
         panel.setBounds(DrawMainComponent.VIEW_WIDTH * DrawMainComponent.VIEW_NUMBER + 40, 50, 150, DrawMainComponent.VIEW_HEIGHT * DrawMainComponent.VIEW_NUMBER);
         scoreTitle.setFont(new Font("Microsoft YaHei UI", Font.BOLD, 18));
-        scoreTitle.setForeground(Color.white);
+        scoreTitle.setForeground(new Color(0,0,0));
         scoreTitle.setBounds(0, 0, 150, 50);
+        scoreTitle.setBackground(new Color(255,255,255));
         scoreBulletinBoard.setFont(new Font("Microsoft YaHei UI", Font.BOLD, 20));
-        scoreBulletinBoard.setForeground(Color.white);
+        scoreBulletinBoard.setForeground(new Color(0,0,0));
         scoreBulletinBoard.setBounds(0, 50, 150, 40);
-        rule.setBackground(new Color(0,128,128));
+        scoreBulletinBoard.setBackground(new Color(255,255,255));
+        rule.setBackground(new Color(0,0,0));
         rule.setBounds(0, 90, 150, 1);
         hint.setFont(new Font("Microsoft YaHei UI", Font.PLAIN, 16));
+        hint.setForeground(new Color(0,0,0));
         hint.setBounds(10, 100, 130, 200);
-        hint.setBackground(new Color(0,102,102));
+        hint.setBackground(new Color(255,255,255));
 
         panel.add(scoreTitle);
         panel.add(scoreBulletinBoard);
@@ -122,7 +132,6 @@ public class Main extends Frame {
 
     /**
      * Main program
-     * @param args
      * @throws InterruptedException see Main().showView()
      */
     public static void main(String[] args) throws InterruptedException{
