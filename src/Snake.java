@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,11 +20,11 @@ public class Snake {
      * This is the snake. It is saved as ArrayList<Node>
      * @param snakeHeadX saves the snake head
      * @param snakeHeadY saves the snake body
-     * @param main the component where the snake should be drawed to
+     * @param main the component where the snake should be drawn to
      */
     public Snake(int snakeHeadX, int snakeHeadY, Main main){
         random = new Random();
-        snake =new ArrayList<>();
+        snake = new ArrayList<>();
         snake.add(new Node(snakeHeadX,snakeHeadY));
         this.main = main;
         logger.log(Level.INFO, "Created snake");
@@ -81,7 +82,7 @@ public class Snake {
 
     /**
      * When snake head touches the egg, this function will be triggered.
-     * @implNote when the egg was eaten, the snake will grow up with 1 length.
+     * When the egg was eaten, the snake will grow up with 1 length.
      * @param egg where the egg is
      */
     public void eatEgg(Node egg){
@@ -90,8 +91,8 @@ public class Snake {
             //Generate egg
             main.setEgg(random.nextInt(DrawMainComponent.VIEW_WIDTH - 1) * DrawMainComponent.VIEW_NUMBER,
                     random.nextInt(DrawMainComponent.VIEW_WIDTH - 1) * DrawMainComponent.VIEW_NUMBER);
-            main.gameScore = main.gameScore + 5;
-            main.getCurrentScore().setText(main.gameScore + "");
+            Main.gameScore = Main.gameScore + 5;
+            main.getCurrentScore().setText(Main.gameScore + "");
             Toolkit.getDefaultToolkit().beep();//Let computer signals you have eaten an egg
             logger.log(Level.WARNING, "Snake eat an egg, position (" + egg.getNodeX() + ", " + egg.getNodeY() + ")");
         }
@@ -100,10 +101,10 @@ public class Snake {
 
     /**
      * When the snake head touches the bound, this function will be triggered.
-     * @implNote when it really happens, the game will stop
+     * When it really happens, the game will stop
      */
     public void snakeRunInterface() throws InterruptedException, URISyntaxException, IOException {
-        if(this.getSnakeHead().getNodeX() < 0 || this.getSnakeHead().getNodeY() < 0||
+        if (this.getSnakeHead().getNodeX() < 0 || this.getSnakeHead().getNodeY() < 0||
                 this.getSnakeHead().getNodeX() > (DrawMainComponent.VIEW_WIDTH * DrawMainComponent.VIEW_NUMBER)||
                 this.getSnakeHead().getNodeY() > (DrawMainComponent.VIEW_WIDTH * DrawMainComponent.VIEW_NUMBER)) {
             Toolkit.getDefaultToolkit().beep();
@@ -129,6 +130,7 @@ public class Snake {
                     command.clear();
                     command.add(javaBin);
                     command.add("Main");
+                    command.addAll(Arrays.asList(Main.arguments));
                     final ProcessBuilder runner = new ProcessBuilder(command);
                     //runner.redirectOutput(ProcessBuilder.Redirect.PIPE);
                     runner.directory(currentJar);
@@ -136,11 +138,12 @@ public class Snake {
                     System.exit(0);
                 }
 
-                    /* Build command: java -jar application.jar */
+                // Build command: java -jar application.jar
                 logger.log(Level.WARNING, "The program is running as a .jar, will start a new instance");
                 command.add(javaBin);
                 command.add("-jar");
                 command.add(currentJar.getPath());
+                command.addAll(Arrays.asList(Main.arguments));
 
 
                 final ProcessBuilder runner = new ProcessBuilder(command);

@@ -14,6 +14,7 @@ public class Node {
 
     /**
      * The function that gets the row of coordination
+     * @return nodeX coordination
      */
     public int getNodeX() {
         return nodeX;
@@ -21,12 +22,14 @@ public class Node {
 
     /**
      * The function that gets the column of coordination
+     * @return noteY coordination
      */
     public int getNodeY() {
         return nodeY;
     }
     /**
      * The function that sets the row of coordination
+     * @param nodeX set the nodeX
      */
     public void setNodeX(int nodeX) {
         this.nodeX = nodeX;
@@ -34,8 +37,10 @@ public class Node {
 
     /**
      * The function that sets the column of coordination
+     * @param nodeY set the nodeY
      */
     public void setNodeY(int nodeY) {
         this.nodeY = nodeY;
     }
+
 }

@@ -6,27 +6,36 @@ import java.awt.Frame;
 import java.awt.Panel;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.Serial;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Main extends Frame {
+    @Serial
+    private static final long serialVersionUID = -2315964205549870089L;
+
+    private final Random random;
+
     public static boolean canContinue = false;
     public static int refreshRate;
     public static int gameScore = 0;
     public static boolean gameState = true;
+    public static Thread thread;
+    public static String[] arguments;
+
     private final Panel rule;
-    private final Random random;
     private Snake snake;
     private Node egg;
     private DrawMainComponent drawMainComponent;
     private RunGame runGame;
+    private Panel panel;
+
     private final JLabel title = new JLabel("Snake Eat Egg Game v1.0", JLabel.CENTER);
     private final JLabel scoreTitle = new JLabel("Score", JLabel.CENTER);
     private JLabel scoreBulletinBoard;
-    private Panel panel;
-    public static Thread thread;
     private final JTextArea hint = new JTextArea("Use following\nkey to control:\n      ↑\n  ←      →\n      ↓\n\n[Esc] to exit\n[Enter] to pause");
+
     private static Logger logger = Logger.getLogger("Main");
 
     /**
@@ -73,16 +82,51 @@ public class Main extends Frame {
      * @throws InterruptedException see below
      */
     public void showView() throws InterruptedException {
-        boolean once = true;
-        do {
-            if (once) {
-                new showDifficultyDialog();
-                once = false;
+        if (2 == arguments.length && arguments[0].equalsIgnoreCase("--difficulty")) {
+            if (arguments[1].equalsIgnoreCase("easy")) {
+                Main.refreshRate = 500;
+            } else if (arguments[1].equalsIgnoreCase("hard")) {
+                Main.refreshRate = 200;
+            } else if (arguments[1].equalsIgnoreCase("expert")) {
+                Main.refreshRate = 100;
             }
-            Thread.sleep(10);//F**king Java
-            //Dont ask me why to sleep 0.01 second can run the program. I dont know why.
-            //Dont try to delete this. I spend a whole night to find this solution.
-        } while (!canContinue);
+            canContinue = true;
+        } else if (2 == arguments.length && arguments[0].equalsIgnoreCase("--refreshrate")){
+            try{
+                Main.refreshRate = Integer.parseInt(arguments[1]);
+            } catch (NumberFormatException e){
+                e.printStackTrace();
+                System.out.println("\033[1;31;40mError\033[0m: Invalid arguments");
+                System.out.println("Usage: ");
+                System.out.println("\t...(main program) [--difficulty {\"easy\",\"hard\",\"expert\"}]");
+                System.out.println("OR");
+                System.out.println("\t...(main program) [--refreshrate (in milliseconds)] (smaller number means faster rate)");
+                System.out.println("OR");
+                System.out.println("\t...(main program)");
+                System.exit(1);
+            }
+            canContinue = true;
+        } else if (0 == arguments.length){
+            boolean once = true;
+            do {
+                if (once) {
+                    new showDifficultyDialog();
+                    once = false;
+                }
+                Thread.sleep(100);//F**king Java
+                //Dont ask me why to sleep 0.01 second can run the program. I dont know why.
+                //Dont try to delete this. I spend a whole night to find this solution.
+            } while (!canContinue);
+        } else {
+            System.out.println("\033[1;31;40mError\033[0m: Invalid arguments");
+            System.out.println("Usage: ");
+            System.out.println("\t...(main program) [--difficulty {\"easy\",\"hard\",\"expert\"}]");
+            System.out.println("OR");
+            System.out.println("\t...(main program) [--refreshrate (in milliseconds)] (smaller number means faster rate)");
+            System.out.println("OR");
+            System.out.println("\t...(main program)");
+            System.exit(1);
+        }
 
         title.setFont(new Font("Microsoft YaHei UI", Font.BOLD, 18));
         title.setForeground(Color.white);
@@ -124,17 +168,19 @@ public class Main extends Frame {
             public void windowClosing(WindowEvent we) {
                 System.exit(0);
             }
-        });
+        }
+        );
         this.setVisible(true);
-
     }
 
 
     /**
      * Main program
      * @throws InterruptedException see Main().showView()
+     * @param args receives arguments from command line (although this program does not need it)
      */
     public static void main(String[] args) throws InterruptedException{
+        arguments = args;
         new Main().showView();
         while (true) {
             if (canContinue) {

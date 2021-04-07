@@ -25,3 +25,11 @@ hs_err_pid*
 # Intellij IDEA configuration files
 .idea/
 APCSP-SnakeGame.iml
+
+# MacOS Specified
+.DS_Store
+*/.DS_Store
+
+# Windows Specified
+Thumbs.db
+*/Thumbs.db
