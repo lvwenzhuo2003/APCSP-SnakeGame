@@ -5,6 +5,10 @@ import java.awt.Panel;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
+/**
+ * Paint (or repaint) the UI every specified milisecs
+ * @author *%$#@ (3104969674@qq.com), SteveLyu03 (lvwenzhuo2003@126.com)
+ */
 public class DrawMainComponent extends Panel{
 
     public static final int VIEW_WIDTH = 40;
@@ -42,16 +46,16 @@ public class DrawMainComponent extends Panel{
 
     /**
      * rewrite the update method, distinguished from the built-in one
+     * @author SteveLyu03 (lvwenzhuo2003@126.com)
      */
     @Override
     public void update(Graphics g) {
-        if(iBuffer==null)
-        {
-            iBuffer=createImage(DrawMainComponent.VIEW_WIDTH * DrawMainComponent.VIEW_NUMBER + 1, DrawMainComponent.VIEW_HEIGHT * DrawMainComponent.VIEW_NUMBER + 1);
-            gBuffer=iBuffer.getGraphics();
+        if (iBuffer == null) {
+            iBuffer = createImage(VIEW_WIDTH * VIEW_NUMBER + 1, VIEW_HEIGHT * VIEW_NUMBER + 1);
+            gBuffer = iBuffer.getGraphics();
         }
         gBuffer.setColor(getBackground());
-        gBuffer.fillRect(0,0, DrawMainComponent.VIEW_WIDTH * DrawMainComponent.VIEW_NUMBER + 1, DrawMainComponent.VIEW_HEIGHT * DrawMainComponent.VIEW_NUMBER + 1);
+        gBuffer.fillRect(0,0, VIEW_WIDTH * VIEW_NUMBER + 1, VIEW_HEIGHT * VIEW_NUMBER + 1);
         paint(gBuffer);
         g.drawImage(iBuffer,0,0,this);
         logger.log(Level.INFO, "Updated main frame while snake is moving");

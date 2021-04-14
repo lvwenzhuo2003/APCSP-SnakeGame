@@ -11,6 +11,10 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Main UI Controller and thread creator
+ * @author SteveLyu03 (lvwenzhuo2003@126.com)
+ */
 public class Main extends Frame {
     @Serial
     private static final long serialVersionUID = -2315964205549870089L;
@@ -165,7 +169,9 @@ public class Main extends Frame {
         this.add(panel);
         this.addKeyListener(new KeyboardControl(snake));
         this.addWindowListener(new WindowAdapter() {
+            @Override
             public void windowClosing(WindowEvent we) {
+                logger.log(Level.WARNING, "User closed window");
                 System.exit(0);
             }
         }
@@ -176,7 +182,8 @@ public class Main extends Frame {
 
     /**
      * Main program
-     * @throws InterruptedException see Main().showView()
+     * @throws InterruptedException see below
+     * @see Main
      * @param args receives arguments from command line (although this program does not need it)
      */
     public static void main(String[] args) throws InterruptedException{

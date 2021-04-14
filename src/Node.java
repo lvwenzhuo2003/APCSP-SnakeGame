@@ -1,3 +1,7 @@
+/**
+ * This is the self-defined variable Node
+ * @author *%$#@ (3104969674@qq.com)
+ */
 public class Node {
 
     private int nodeX, nodeY;

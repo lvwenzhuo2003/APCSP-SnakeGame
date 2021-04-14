@@ -9,12 +9,17 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * This is the main snake which will run on the screen UI
+ * @author *%$#@ (3104969674@qq.com)
+ */
 public class Snake {
     private ArrayList<Node> snake;
     private Random random;
     private int direction = 0;//0=up, 1=right, 2=down, 3=left
     private static Logger logger = Logger.getLogger("Snake");
     private Main main;
+    public boolean snakeHitItself;
 
     /**
      * This is the snake. It is saved as ArrayList<Node>
@@ -28,6 +33,10 @@ public class Snake {
         snake.add(new Node(snakeHeadX,snakeHeadY));
         this.main = main;
         logger.log(Level.INFO, "Created snake");
+    }
+
+    public int getDirection(){
+        return direction;
     }
 
     /**
@@ -58,7 +67,7 @@ public class Snake {
      * Allows snake to move on grid
      */
     public void snakeMove(){
-        switch (direction) {
+        switch (direction) {//0=up, 1=right, 2=down, 3=left
             case 0 -> {
                 snake.add(0,new Node(getSnakeHead().getNodeX(), getSnakeHead().getNodeY() - DrawMainComponent.VIEW_NUMBER));
                 logger.log(Level.CONFIG, "Snake changed direction to up");
@@ -84,6 +93,7 @@ public class Snake {
      * When snake head touches the egg, this function will be triggered.
      * When the egg was eaten, the snake will grow up with 1 length.
      * @param egg where the egg is
+     * @author SteveLyu03 (lvwenzhuo2003@126.com)
      */
     public void eatEgg(Node egg){
         if(snake.get(0).getNodeX() == egg.getNodeX() && snake.get(0).getNodeY() == egg.getNodeY()) {
@@ -102,11 +112,42 @@ public class Snake {
     /**
      * When the snake head touches the bound, this function will be triggered.
      * When it really happens, the game will stop
+     * @author SteveLyu03 (lvwenzhuo2003@126.com)
      */
     public void snakeRunInterface() throws InterruptedException, URISyntaxException, IOException {
-        if (this.getSnakeHead().getNodeX() < 0 || this.getSnakeHead().getNodeY() < 0||
+        snakeHitItself = false;
+        for (int i = 1;i < snake.size();i++){
+            Node each = snake.get(i);
+            //0=up, 1=right, 2=down, 3=left
+            if (direction == 0) {
+                if (each.getNodeX() == getSnakeHead().getNodeX() && each.getNodeY() == getSnakeHead().getNodeY() - DrawMainComponent.VIEW_NUMBER) {
+                    snakeHitItself = true;
+                    Thread.sleep(Main.refreshRate);
+                    break;
+                }
+            } else if (direction == 1) {
+                if (each.getNodeX() == getSnakeHead().getNodeX() + DrawMainComponent.VIEW_NUMBER && each.getNodeY() == getSnakeHead().getNodeY()) {
+                    snakeHitItself = true;
+                    Thread.sleep(Main.refreshRate);
+                    break;
+                }
+            } else if (direction == 2) {
+                if (each.getNodeX() == getSnakeHead().getNodeX() && each.getNodeY() == getSnakeHead().getNodeY() + DrawMainComponent.VIEW_NUMBER) {
+                    snakeHitItself = true;
+                    Thread.sleep(Main.refreshRate);
+                    break;
+                }
+            } else if (direction == 3) {
+                if (each.getNodeX() == getSnakeHead().getNodeX() - DrawMainComponent.VIEW_NUMBER && each.getNodeY() == getSnakeHead().getNodeY()) {
+                    snakeHitItself = true;
+                    Thread.sleep(Main.refreshRate);
+                    break;
+                }
+            }
+        }
+        if ((this.getSnakeHead().getNodeX() < 0 || this.getSnakeHead().getNodeY() < 0||
                 this.getSnakeHead().getNodeX() > (DrawMainComponent.VIEW_WIDTH * DrawMainComponent.VIEW_NUMBER)||
-                this.getSnakeHead().getNodeY() > (DrawMainComponent.VIEW_WIDTH * DrawMainComponent.VIEW_NUMBER)) {
+                this.getSnakeHead().getNodeY() > (DrawMainComponent.VIEW_WIDTH * DrawMainComponent.VIEW_NUMBER)) || snakeHitItself) {
             Toolkit.getDefaultToolkit().beep();
             boolean dieRestart = JOptionPane.showConfirmDialog(null,"Game Over!\nRestart the game?","Game Over!",JOptionPane.OK_CANCEL_OPTION,JOptionPane.WARNING_MESSAGE) == 0;
             logger.log(Level.WARNING, "Player failed");
@@ -148,6 +189,7 @@ public class Snake {
 
                 final ProcessBuilder runner = new ProcessBuilder(command);
                 runner.start();
+                System.exit(0);
             }
             System.exit(0);
         }

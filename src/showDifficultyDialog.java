@@ -10,6 +10,10 @@ import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * This will show difficulty select dialog if no arguments is passed to the program.
+ * @author SteveLyu03 (lvwenzhuo2003@126.com)
+ */
 public class showDifficultyDialog implements ActionListener {
     private final JFrame jFrame = new JFrame("Choose difficulty");
     private final JComboBox<String> difficulty = new JComboBox<>();
@@ -37,7 +41,7 @@ public class showDifficultyDialog implements ActionListener {
         int screenWidth = screenSize.width;
         int screenHeight = screenSize.height;
         jFrame.setVisible(true);
-        jFrame.setLocation(screenWidth/2-windowWidth/2, screenHeight/2-windowHeight/2);
+        jFrame.setLocation(screenWidth / 2 - windowWidth / 2, screenHeight / 2 - windowHeight / 2);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.pack();
         logger.log(Level.INFO, "showed showing difficulty dialog");

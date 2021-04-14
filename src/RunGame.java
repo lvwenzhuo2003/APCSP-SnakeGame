@@ -4,6 +4,10 @@ import java.util.Arrays;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
+/**
+ * This is the thread runner
+ * @author SteveLyu03 (lvwenzhuo2003@126.com)
+ */
 @SuppressWarnings("InfiniteLoopStatement")
 public class RunGame implements Runnable {
 
