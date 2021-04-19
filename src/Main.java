@@ -96,11 +96,11 @@ public class Main extends Frame {
             }
             canContinue = true;
         } else if (2 == arguments.length && arguments[0].equalsIgnoreCase("--refreshrate")){
-            try{
+            try {
                 Main.refreshRate = Integer.parseInt(arguments[1]);
             } catch (NumberFormatException e){
                 e.printStackTrace();
-                System.out.println("\033[1;31;40mError\033[0m: Invalid arguments");
+                System.out.println("\033[1;31;40mError\033[0m: Invalid arguments, you should input a number");
                 System.out.println("Usage: ");
                 System.out.println("\t...(main program) [--difficulty {\"easy\",\"hard\",\"expert\"}]");
                 System.out.println("OR");

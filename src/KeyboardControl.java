@@ -22,19 +22,29 @@ public class KeyboardControl implements KeyListener {
     /**
      * Keyboard controller only acts when the key is released
      * @param keyEvent triggers when the key is pressed
+     * 0=up, 1=right, 2=down, 3=left
      */
     public void keyReleased(KeyEvent keyEvent){
-        if (snake.getDirection() == 0 || snake.getDirection() == 2){
-            switch (keyEvent.getKeyCode()) {
-                case KeyEvent.VK_RIGHT ->snake.setDirection(1);
-                case KeyEvent.VK_LEFT -> snake.setDirection(3);
-                case KeyEvent.VK_UP, KeyEvent.VK_DOWN -> logger.log(Level.WARNING, "Key pressing ignored");
+        if (snake.getSnake().size() > 1) {
+            if ((snake.getDirection() == 0 || snake.getDirection() == 2)) {
+                switch (keyEvent.getKeyCode()) {
+                    case KeyEvent.VK_RIGHT ->snake.setDirection(1);
+                    case KeyEvent.VK_LEFT -> snake.setDirection(3);
+                    case KeyEvent.VK_UP, KeyEvent.VK_DOWN -> logger.log(Level.WARNING, "Key pressing ignored");
+                }
+            } else {
+                switch (keyEvent.getKeyCode()) {
+                    case KeyEvent.VK_UP ->snake.setDirection(0);
+                    case KeyEvent.VK_DOWN -> snake.setDirection(2);
+                    case KeyEvent.VK_RIGHT, KeyEvent.VK_LEFT -> logger.log(Level.WARNING, "Key pressing ignored");
+                }
             }
         } else {
             switch (keyEvent.getKeyCode()) {
-                case KeyEvent.VK_UP ->snake.setDirection(0);
+                case KeyEvent.VK_RIGHT -> snake.setDirection(1);
+                case KeyEvent.VK_LEFT -> snake.setDirection(3);
+                case KeyEvent.VK_UP -> snake.setDirection(0);
                 case KeyEvent.VK_DOWN -> snake.setDirection(2);
-                case KeyEvent.VK_RIGHT, KeyEvent.VK_LEFT -> logger.log(Level.WARNING, "Key pressing ignored");
             }
         }
         logger.log(Level.WARNING, "Key pressed, keycode " + keyEvent.getExtendedKeyCode());
