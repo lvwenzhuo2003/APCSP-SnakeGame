@@ -48,8 +48,7 @@ public class Main extends Frame {
     public Main(){
         random = new Random();
         logger.log(Level.INFO, "Random initialized");
-        snake = new Snake(10 * DrawMainComponent.VIEW_NUMBER + random.nextInt(19) * DrawMainComponent.VIEW_NUMBER,
-                10 * DrawMainComponent.VIEW_NUMBER + random.nextInt(19) * DrawMainComponent.VIEW_NUMBER,this);
+        snake = new Snake(10 * DrawMainComponent.VIEW_NUMBER + random.nextInt(19) * DrawMainComponent.VIEW_NUMBER, 10 * DrawMainComponent.VIEW_NUMBER + random.nextInt(19) * DrawMainComponent.VIEW_NUMBER,this);
         logger.log(Level.INFO, "Snake created");
         egg = new Node(random.nextInt(DrawMainComponent.VIEW_WIDTH - 1) * DrawMainComponent.VIEW_NUMBER,
                 random.nextInt(DrawMainComponent.VIEW_WIDTH - 1) * DrawMainComponent.VIEW_NUMBER);
@@ -164,7 +163,7 @@ public class Main extends Frame {
         this.setSize(DrawMainComponent.VIEW_WIDTH * DrawMainComponent.VIEW_NUMBER + 210, DrawMainComponent.VIEW_HEIGHT * DrawMainComponent.VIEW_NUMBER + 70);
         this.setLocation(500, 200);
         this.setLayout(null);
-        this.setBackground(new Color(0,128,128));
+        this.setBackground(new Color(0,72,128));
         this.add(drawMainComponent);
         this.add(panel);
         this.addKeyListener(new KeyboardControl(snake));
