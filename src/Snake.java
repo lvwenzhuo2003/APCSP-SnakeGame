@@ -99,8 +99,7 @@ public class Snake {
         if(snake.get(0).getNodeX() == egg.getNodeX() && snake.get(0).getNodeY() == egg.getNodeY()) {
             snake.add(egg);
             //Generate egg
-            main.setEgg(random.nextInt(DrawMainComponent.VIEW_WIDTH - 1) * DrawMainComponent.VIEW_NUMBER,
-                    random.nextInt(DrawMainComponent.VIEW_WIDTH - 1) * DrawMainComponent.VIEW_NUMBER);
+            main.setEgg(random.nextInt(DrawMainComponent.VIEW_WIDTH - 1) * DrawMainComponent.VIEW_NUMBER, random.nextInt(DrawMainComponent.VIEW_WIDTH - 1) * DrawMainComponent.VIEW_NUMBER);
             Main.gameScore = Main.gameScore + 5;
             main.getCurrentScore().setText(Main.gameScore + "");
             Toolkit.getDefaultToolkit().beep();//Let computer signals you have eaten an egg

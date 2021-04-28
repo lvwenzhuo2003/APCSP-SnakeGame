@@ -21,7 +21,7 @@ public class Main extends Frame {
 
     private final Random random;
 
-    public static boolean canContinue = false;
+    public static volatile boolean canContinue = false;
     public static int refreshRate;
     public static int gameScore = 0;
     public static boolean gameState = true;
@@ -188,11 +188,9 @@ public class Main extends Frame {
     public static void main(String[] args) throws InterruptedException{
         arguments = args;
         new Main().showView();
-        while (true) {
-            if (canContinue) {
-                thread.start();
-                break;
-            }
+        while (!canContinue) {
+            Thread.onSpinWait();
         }
+        thread.start();
     }
 }
