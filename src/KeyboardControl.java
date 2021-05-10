@@ -5,7 +5,8 @@ import java.util.logging.Logger;
 
 /**
  * Keyboard Controller which can be TRIGGERED BY USER TOUCHING KEYBOARD
- * @author *%$#@ (3104969674@qq.com)
+ * @apiNote The keyboard controller will only work while the user touch key 10, 27, 37, 38, 39, 40.
+ * @author This is my partner's work
  */
 public class KeyboardControl implements KeyListener {
     private Snake snake;

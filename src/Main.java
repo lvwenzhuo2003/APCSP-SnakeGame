@@ -12,8 +12,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Main UI Controller and thread creator
- * @author SteveLyu03 (lvwenzhuo2003@126.com)
+ * Main UI Controller and thread starter
+ * @author This is my work
  */
 public class Main extends Frame {
     @Serial

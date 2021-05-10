@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 /**
  * This will show difficulty select dialog if no arguments is passed to the program.
- * @author SteveLyu03 (lvwenzhuo2003@126.com)
+ * @author This is my work
  */
 public class showDifficultyDialog implements ActionListener {
     private final JFrame jFrame = new JFrame("Choose difficulty");

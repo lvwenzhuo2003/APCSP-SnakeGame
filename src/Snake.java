@@ -1,17 +1,15 @@
 import javax.swing.JOptionPane;
 import java.awt.Toolkit;
-import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * This is the main snake which will run on the screen UI
- * @author *%$#@ (3104969674@qq.com)
+ * @author This is co-worked
  */
 public class Snake {
     private ArrayList<Node> snake;
@@ -26,6 +24,7 @@ public class Snake {
      * @param snakeHeadX saves the snake head
      * @param snakeHeadY saves the snake body
      * @param main the component where the snake should be drawn to
+     * @author This is my partner's work
      */
     public Snake(int snakeHeadX, int snakeHeadY, Main main){
         random = new Random();
@@ -35,6 +34,11 @@ public class Snake {
         logger.log(Level.INFO, "Created snake");
     }
 
+    /**
+     * @author This is my partner's work
+     * @return the direction of the snake
+     * @see Snake
+     */
     public int getDirection(){
         return direction;
     }
@@ -42,6 +46,8 @@ public class Snake {
     /**
      * Sets where snake should go to.
      * @param direction See above: direction
+     * @see Snake
+     * @author This is my partner's work
      */
     public void setDirection(int direction){
         this.direction = direction;
@@ -50,6 +56,7 @@ public class Snake {
     /**
      * This is the snake head.
      * @return the coordination of snake head
+     * @author This is my partner's work
      */
     public Node getSnakeHead(){
         return snake.get(0);
@@ -58,6 +65,7 @@ public class Snake {
     /**
      * This is the snake body.
      * @return the ArrayList<Node> of snake
+     * @author This is my partner's work
      */
     public ArrayList<Node> getSnake(){
         return snake;
@@ -65,6 +73,7 @@ public class Snake {
 
     /**
      * Allows snake to move on grid
+     * @author This is my partner's work
      */
     public void snakeMove(){
         switch (direction) {//0=up, 1=right, 2=down, 3=left
@@ -93,7 +102,7 @@ public class Snake {
      * When snake head touches the egg, this function will be triggered.
      * When the egg was eaten, the snake will grow up with 1 length.
      * @param egg where the egg is
-     * @author SteveLyu03 (lvwenzhuo2003@126.com)
+     * @author This is my work
      */
     public void eatEgg(Node egg){
         if(snake.get(0).getNodeX() == egg.getNodeX() && snake.get(0).getNodeY() == egg.getNodeY()) {
@@ -111,85 +120,53 @@ public class Snake {
     /**
      * When the snake head touches the bound, this function will be triggered.
      * When it really happens, the game will stop
-     * @author SteveLyu03 (lvwenzhuo2003@126.com)
+     * @author This is my work
      */
     public void snakeRunInterface() throws InterruptedException, URISyntaxException, IOException {
         snakeHitItself = false;
-        for (int i = 1;i < snake.size();i++){
+        label:
+        for (int i = 1; i < snake.size(); i++){
             Node each = snake.get(i);
             //0=up, 1=right, 2=down, 3=left
-            if (direction == 0) {
-                if (each.getNodeX() == getSnakeHead().getNodeX() && each.getNodeY() == getSnakeHead().getNodeY() - DrawMainComponent.VIEW_NUMBER) {
-                    snakeHitItself = true;
-                    Thread.sleep(Main.refreshRate);
+            switch (direction) {
+                case 0:
+                    if (each.getNodeX() == getSnakeHead().getNodeX() && each.getNodeY() == getSnakeHead().getNodeY() - DrawMainComponent.VIEW_NUMBER) {
+                        snakeHitItself = true;
+                        Thread.sleep(Main.refreshRate);
+                        break label;
+                    }
                     break;
-                }
-            } else if (direction == 1) {
-                if (each.getNodeX() == getSnakeHead().getNodeX() + DrawMainComponent.VIEW_NUMBER && each.getNodeY() == getSnakeHead().getNodeY()) {
-                    snakeHitItself = true;
-                    Thread.sleep(Main.refreshRate);
+                case 1:
+                    if (each.getNodeX() == getSnakeHead().getNodeX() + DrawMainComponent.VIEW_NUMBER && each.getNodeY() == getSnakeHead().getNodeY()) {
+                        snakeHitItself = true;
+                        Thread.sleep(Main.refreshRate);
+                        break label;
+                    }
                     break;
-                }
-            } else if (direction == 2) {
-                if (each.getNodeX() == getSnakeHead().getNodeX() && each.getNodeY() == getSnakeHead().getNodeY() + DrawMainComponent.VIEW_NUMBER) {
-                    snakeHitItself = true;
-                    Thread.sleep(Main.refreshRate);
+                case 2:
+                    if (each.getNodeX() == getSnakeHead().getNodeX() && each.getNodeY() == getSnakeHead().getNodeY() + DrawMainComponent.VIEW_NUMBER) {
+                        snakeHitItself = true;
+                        Thread.sleep(Main.refreshRate);
+                        break label;
+                    }
                     break;
-                }
-            } else if (direction == 3) {
-                if (each.getNodeX() == getSnakeHead().getNodeX() - DrawMainComponent.VIEW_NUMBER && each.getNodeY() == getSnakeHead().getNodeY()) {
-                    snakeHitItself = true;
-                    Thread.sleep(Main.refreshRate);
+                case 3:
+                    if (each.getNodeX() == getSnakeHead().getNodeX() - DrawMainComponent.VIEW_NUMBER && each.getNodeY() == getSnakeHead().getNodeY()) {
+                        snakeHitItself = true;
+                        Thread.sleep(Main.refreshRate);
+                        break label;
+                    }
                     break;
-                }
             }
         }
         if ((this.getSnakeHead().getNodeX() < 0 || this.getSnakeHead().getNodeY() < 0||
                 this.getSnakeHead().getNodeX() > (DrawMainComponent.VIEW_WIDTH * DrawMainComponent.VIEW_NUMBER)||
                 this.getSnakeHead().getNodeY() > (DrawMainComponent.VIEW_WIDTH * DrawMainComponent.VIEW_NUMBER)) || snakeHitItself) {
             Toolkit.getDefaultToolkit().beep();
-            boolean dieRestart = JOptionPane.showConfirmDialog(null,"Game Over!\nRestart the game?","Game Over!",JOptionPane.OK_CANCEL_OPTION,JOptionPane.WARNING_MESSAGE) == 0;
+            JOptionPane.showMessageDialog(null,"Game Over!","Game Over!",JOptionPane.INFORMATION_MESSAGE);
             logger.log(Level.WARNING, "Player failed");
-            if (dieRestart){
-                logger.log(Level.WARNING, "Player restarting the game");
-                final String javaBin = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java";
-                final String javaCompiler = System.getProperty("java.home") + File.separator + "bin" + File.separator + "javac";
-                final File currentJar = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI());
-                Main.getWindows()[0].setVisible(false);
-
-                final ArrayList<String> command = new ArrayList<>();
-                /* is it a jar file? */
-                if(!currentJar.getName().endsWith(".jar")) {
-                    logger.log(Level.WARNING, "The program is running under .class, will try compile a new one and run");
-                    command.add(javaCompiler);
-                    command.add("Main.java");
-                    final ProcessBuilder builder = new ProcessBuilder(command);
-                    //builder.redirectOutput(ProcessBuilder.Redirect.PIPE);
-                    builder.directory(currentJar);
-                    builder.start();
-                    command.clear();
-                    command.add(javaBin);
-                    command.add("Main");
-                    command.addAll(Arrays.asList(Main.arguments));
-                    final ProcessBuilder runner = new ProcessBuilder(command);
-                    //runner.redirectOutput(ProcessBuilder.Redirect.PIPE);
-                    runner.directory(currentJar);
-                    runner.start();
-                    System.exit(0);
-                }
-
-                // Build command: java -jar application.jar
-                logger.log(Level.WARNING, "The program is running as a .jar, will start a new instance");
-                command.add(javaBin);
-                command.add("-jar");
-                command.add(currentJar.getPath());
-                command.addAll(Arrays.asList(Main.arguments));
-
-
-                final ProcessBuilder runner = new ProcessBuilder(command);
-                runner.start();
-                System.exit(0);
-            }
+            logger.log(Level.WARNING, "Player restarting the game");
+            Main.getWindows()[0].setVisible(false);
             System.exit(0);
         }
     }

@@ -6,7 +6,7 @@ import java.util.logging.Level;
 
 /**
  * This is the thread runner
- * @author SteveLyu03 (lvwenzhuo2003@126.com)
+ * @author This is my work
  */
 @SuppressWarnings("InfiniteLoopStatement")
 public class RunGame implements Runnable {

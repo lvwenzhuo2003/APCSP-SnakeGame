@@ -7,7 +7,7 @@ import java.util.logging.Level;
 
 /**
  * Paint (or repaint) the UI every specified milisecs
- * @author *%$#@ (3104969674@qq.com), SteveLyu03 (lvwenzhuo2003@126.com)
+ * @author This is the co-work by me and my partner
  */
 public class DrawMainComponent extends Panel{
 
@@ -33,6 +33,7 @@ public class DrawMainComponent extends Panel{
 
     /**
      * rewrite the paint method, distinguished from the built-in one
+     * @author This is my work
      */
     @Override
     public void paint(Graphics g) {
@@ -46,7 +47,7 @@ public class DrawMainComponent extends Panel{
 
     /**
      * rewrite the update method, distinguished from the built-in one
-     * @author SteveLyu03 (lvwenzhuo2003@126.com)
+     * @author This is my work
      */
     @Override
     public void update(Graphics g) {
@@ -63,6 +64,7 @@ public class DrawMainComponent extends Panel{
 
     /**
      * Draw the nodes specified
+     * @author This is my work
      */
     public void drawGridding(Graphics g) {
 
@@ -79,6 +81,7 @@ public class DrawMainComponent extends Panel{
     /**
      * draw the snake
      * The snake is separated to two parts. The head is marked deep-grey, while other body parts are light-grey
+     * @author This is my partner's work
      */
     public void drawSnake(Graphics g) {
 
@@ -92,6 +95,7 @@ public class DrawMainComponent extends Panel{
 
     /**
      * Draw the egg on the grid
+     * @author This is my partner's work
      */
     public void drawEgg(Graphics g) {
 

@@ -1,6 +1,6 @@
 /**
  * This is the self-defined variable Node
- * @author *%$#@ (3104969674@qq.com)
+ * @author This is my partner's work
  */
 public class Node {
 
