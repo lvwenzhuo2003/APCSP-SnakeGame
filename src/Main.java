@@ -116,9 +116,6 @@ public class Main extends Frame {
                     new showDifficultyDialog();
                     once = false;
                 }
-                Thread.sleep(100);//F**king Java
-                //Dont ask me why to sleep 0.01 second can run the program. I dont know why.
-                //Dont try to delete this. I spend a whole night to find this solution.
             } while (!canContinue);
         } else {
             System.out.println("\033[1;31;40mError\033[0m: Invalid arguments");
