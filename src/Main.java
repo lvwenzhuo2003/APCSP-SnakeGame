@@ -26,7 +26,6 @@ public class Main extends Frame {
     public static int gameScore = 0;
     public static boolean gameState = true;
     public static Thread thread;
-    public static String[] arguments;
 
     private final Panel rule;
     private Snake snake;
@@ -82,52 +81,15 @@ public class Main extends Frame {
 
     /**
      * main frame
-     * @throws InterruptedException see below
      */
-    public void showView() throws InterruptedException {
-        if (2 == arguments.length && arguments[0].equalsIgnoreCase("--difficulty")) {
-            if (arguments[1].equalsIgnoreCase("easy")) {
-                Main.refreshRate = 500;
-            } else if (arguments[1].equalsIgnoreCase("hard")) {
-                Main.refreshRate = 200;
-            } else if (arguments[1].equalsIgnoreCase("expert")) {
-                Main.refreshRate = 100;
+    public void showView() {
+        boolean once = true;
+        do {
+            if (once) {
+                new showDifficultyDialog();
+                once = false;
             }
-            canContinue = true;
-        } else if (2 == arguments.length && arguments[0].equalsIgnoreCase("--refreshrate")){
-            try {
-                Main.refreshRate = Integer.parseInt(arguments[1]);
-            } catch (NumberFormatException e){
-                e.printStackTrace();
-                System.out.println("\033[1;31;40mError\033[0m: Invalid arguments, you should input a number");
-                System.out.println("Usage: ");
-                System.out.println("\t...(main program) [--difficulty {\"easy\",\"hard\",\"expert\"}]");
-                System.out.println("OR");
-                System.out.println("\t...(main program) [--refreshrate (in milliseconds)] (smaller number means faster rate)");
-                System.out.println("OR");
-                System.out.println("\t...(main program)");
-                System.exit(1);
-            }
-            canContinue = true;
-        } else if (0 == arguments.length){
-            boolean once = true;
-            do {
-                if (once) {
-                    new showDifficultyDialog();
-                    once = false;
-                }
-            } while (!canContinue);
-        } else {
-            System.out.println("\033[1;31;40mError\033[0m: Invalid arguments");
-            System.out.println("Usage: ");
-            System.out.println("\t...(main program) [--difficulty {\"easy\",\"hard\",\"expert\"}]");
-            System.out.println("OR");
-            System.out.println("\t...(main program) [--refreshrate (in milliseconds)] (smaller number means faster rate)");
-            System.out.println("OR");
-            System.out.println("\t...(main program)");
-            System.exit(1);
-        }
-
+        } while (!canContinue);
         title.setFont(new Font("Microsoft YaHei UI", Font.BOLD, 18));
         title.setForeground(Color.white);
         title.setBounds(0, 0, DrawMainComponent.VIEW_HEIGHT * DrawMainComponent.VIEW_NUMBER + 70, 40);
@@ -178,12 +140,10 @@ public class Main extends Frame {
 
     /**
      * Main program
-     * @throws InterruptedException see below
      * @see Main
      * @param args receives arguments from command line (although this program does not need it)
      */
-    public static void main(String[] args) throws InterruptedException{
-        arguments = args;
+    public static void main(String[] args) {
         new Main().showView();
         while (!canContinue) {
             Thread.onSpinWait();
